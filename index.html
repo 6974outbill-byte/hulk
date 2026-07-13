@@ -4,14 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07120a" />
-  <meta name="description" content="HULK — gamma-powered personal portfolio website" />
-  <title>HULK | Gamma World</title>
+  <meta name="description" content="미치카츠 — gamma-powered personal portfolio website" />
+  <title>미치카츠 | Gamma World</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <audio id="bgm" src="music/club1.mp3" preload="auto" loop></audio>
+  <div class="enter-gate" id="enterGate">
+    <div class="gate-inner">
+      <p class="eyebrow">GAMMA POWERED PERSONAL WORLD</p>
+      <h1>미치카츠</h1>
+      <p>ENTER를 누르면 음악과 함께 시작됩니다.</p>
+      <button class="btn primary" id="startExperience">ENTER</button>
+    </div>
+  </div>
+  <button class="music-control" id="musicControl" aria-label="배경음악 재생 또는 일시정지">
+    <span id="musicIcon">▶</span>
+    <span id="musicLabel">MUSIC OFF</span>
+  </button>
   <div class="noise"></div>
   <div class="gamma-bg" aria-hidden="true">
     <span class="orb orb-1"></span>
@@ -22,9 +35,9 @@
   </div>
 
   <header class="site-header">
-    <a class="logo" href="#home" aria-label="HULK 홈">
-      <span class="logo-mark">H</span>
-      <span class="logo-text">HULK</span>
+    <a class="logo" href="#home" aria-label="미치카츠 홈">
+      <span class="logo-mark">미</span>
+      <span class="logo-text">미치카츠</span>
     </a>
     <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -34,6 +47,7 @@
       <a href="#about">ABOUT</a>
       <a href="#projects">PROJECTS</a>
       <a href="#gallery">GALLERY</a>
+      <a href="#social">SOCIAL</a>
       <a href="#contact">CONTACT</a>
     </nav>
   </header>
@@ -45,7 +59,7 @@
         <p class="eyebrow">GAMMA POWERED PERSONAL WORLD</p>
         <h1>
           <span class="tiny">WELCOME TO</span>
-          <span class="main-title" data-text="HULK">HULK</span>
+          <span class="main-title" data-text="미치카츠">미치카츠</span>
         </h1>
         <p class="hero-copy">
           어둠 속에서 깨어나는 에너지.<br />
@@ -166,6 +180,28 @@
       </div>
     </section>
 
+
+    <section class="section social" id="social">
+      <div class="section-heading reveal">
+        <p>04 / SOCIAL</p>
+        <h2>FOLLOW 미치카츠</h2>
+      </div>
+      <div class="social-grid">
+        <a class="social-card youtube reveal" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
+          <span class="social-kicker">YOUTUBE</span>
+          <h3>미치카츠 유튜브</h3>
+          <p>영상과 새로운 콘텐츠를 확인하세요.</p>
+          <strong>VISIT CHANNEL ↗</strong>
+        </a>
+        <a class="social-card instagram reveal" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+          <span class="social-kicker">INSTAGRAM</span>
+          <h3>미치카츠 인스타그램</h3>
+          <p>사진과 실시간 소식을 만나보세요.</p>
+          <strong>FOLLOW NOW ↗</strong>
+        </a>
+      </div>
+    </section>
+
     <section class="section contact" id="contact">
       <div class="contact-panel reveal">
         <p class="eyebrow">READY TO CONNECT?</p>
@@ -177,7 +213,7 @@
   </main>
 
   <footer>
-    <p>© <span id="year"></span> HULK. ALL RIGHTS RESERVED.</p>
+    <p>© <span id="year"></span> 미치카츠. ALL RIGHTS RESERVED.</p>
     <p>POWERED BY CLOUDFLARE PAGES</p>
   </footer>
 

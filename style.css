@@ -199,3 +199,27 @@ footer{padding:30px 7vw;border-top:1px solid rgba(255,255,255,.06);display:flex;
   .contact-panel h2{font-size:52px}
   footer{flex-direction:column;gap:8px}
 }
+
+
+/* V2 */
+.enter-gate{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,rgba(99,255,74,.24),transparent 28%),linear-gradient(180deg,rgba(3,8,4,.98),rgba(3,8,4,1));transition:opacity .65s ease,visibility .65s ease}
+.enter-gate.hide{opacity:0;visibility:hidden}
+.gate-inner{text-align:center;padding:36px;max-width:760px}
+.gate-inner h1{margin:0 0 18px;font-family:"Black Ops One","Noto Sans KR",sans-serif;font-size:clamp(74px,13vw,180px);line-height:1;color:var(--green);text-shadow:0 0 16px rgba(85,255,68,.35),0 0 65px rgba(42,255,74,.25)}
+.gate-inner>p:not(.eyebrow){color:#b8c3ba;margin:0 0 28px}
+.music-control{position:fixed;right:22px;bottom:22px;z-index:200;display:flex;align-items:center;gap:10px;min-width:146px;height:46px;padding:0 16px;border:1px solid var(--line);background:rgba(4,12,6,.82);backdrop-filter:blur(12px);color:#fff;font:800 11px "Noto Sans KR",sans-serif;letter-spacing:1.2px;cursor:pointer;box-shadow:var(--shadow)}
+.music-control:hover{border-color:var(--green)}
+#musicIcon{color:var(--green);font-size:14px}
+.social-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.social-card{min-height:330px;padding:38px;display:flex;flex-direction:column;justify-content:flex-end;text-decoration:none;color:#fff;border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden;transition:.3s;background:#071008}
+.social-card::before{content:"";position:absolute;inset:0;opacity:.55;transition:.35s}
+.social-card:hover{transform:translateY(-8px);border-color:var(--line);box-shadow:var(--shadow)}
+.social-card:hover::before{transform:scale(1.08)}
+.social-card>*{position:relative;z-index:1}
+.social-kicker{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:900}
+.social-card h3{font-size:34px;margin:12px 0}
+.social-card p{color:#b0bbb2;margin:0 0 26px}
+.social-card strong{font-size:12px;letter-spacing:1.4px}
+.youtube::before{background:radial-gradient(circle at 70% 25%,rgba(255,44,44,.35),transparent 25%),linear-gradient(135deg,rgba(117,13,13,.35),transparent 55%)}
+.instagram::before{background:radial-gradient(circle at 72% 23%,rgba(202,87,255,.35),transparent 24%),radial-gradient(circle at 25% 65%,rgba(255,166,61,.22),transparent 28%)}
+@media(max-width:760px){.social-grid{grid-template-columns:1fr}.social-card{min-height:270px;padding:28px}.music-control{right:14px;bottom:14px;min-width:130px}}
