@@ -32,7 +32,7 @@ window.addEventListener('mousemove', (e) => {
 
 // ===== 미치카츠 V2 설정 =====
 const SOCIAL_LINKS = {
-  youtube: "https://www.youtube.com/",
+  youtube: "https://www.youtube.com/@swj7344",
   instagram: "https://www.instagram.com/"
 };
 
