@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#020503" />
-  <meta name="description" content="미치카츠TV 시네마틱 개인 홈페이지" />
+  <meta name="description" content="미치카츠TV 시네마틱 홈페이지" />
   <title>미치카츠TV</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,51 +15,28 @@
   <audio id="bgm" src="music/club1.mp3" preload="auto" loop></audio>
 
   <div id="intro" class="intro">
-    <canvas id="introCanvas"></canvas>
-    <div class="intro-storm"></div>
-    <div class="intro-figure" aria-hidden="true">
-      <div class="intro-head"></div>
-      <div class="intro-body"></div>
-      <div class="intro-arm intro-left"></div>
-      <div class="intro-arm intro-right"></div>
-      <div class="intro-eye eye-left"></div>
-      <div class="intro-eye eye-right"></div>
-    </div>
-    <div class="intro-content">
-      <p>WELCOME TO <span>미치카츠</span> WORLD</p>
-      <h1>미치카츠TV</h1>
-      <div class="title-line"></div>
-      <h2>입장을 해볼까요?</h2>
-      <button id="enterButton">들어가기</button>
-      <div class="down-arrows">⌄<br>⌄</div>
+    <div class="intro-bg"></div>
+
+    <button id="enterButton" class="hotspot enter-hotspot" aria-label="들어가기">
+      <span>들어가기</span>
+    </button>
+
+    <a class="hotspot youtube-hotspot" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="유튜브"></a>
+    <a class="hotspot instagram-hotspot" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="인스타그램"></a>
+
+    <div class="intro-topbar">
+      <button id="introMusicButton" class="intro-music-button">MUSIC ♫ ON <b>40%</b></button>
     </div>
 
-    <aside class="intro-social">
-      <a class="youtube" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
-        <span>▶</span>
-        <small>YOUTUBE</small>
-      </a>
-      <a class="instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-        <span>◎</span>
-        <small>INSTAGRAM</small>
-      </a>
-    </aside>
-
-    <div class="intro-music">
-      <div>
-        <strong>MUSIC ON</strong>
-        <span>40%</span>
-      </div>
-      <div class="intro-disc">♫</div>
-    </div>
+    <div class="intro-note">미치카츠TV · CINEMATIC GAMMA WORLD</div>
   </div>
 
   <canvas id="particleCanvas" aria-hidden="true"></canvas>
   <div id="flashLayer" class="flash-layer"></div>
   <div id="shockLayer" class="shock-layer"></div>
 
-  <header class="site-header">
-    <a class="brand" href="#home">
+  <header>
+    <a href="#home" class="brand">
       <span class="brand-mark">M</span>
       <strong>미치카츠TV</strong>
     </a>
@@ -74,7 +51,6 @@
       <a href="#gallery">GALLERY</a>
       <a href="#videos">VIDEOS</a>
       <a href="#gaming">GAMING</a>
-      <a href="#social">SOCIAL</a>
       <a href="#contact">CONTACT</a>
     </nav>
 
@@ -89,62 +65,30 @@
 
   <main>
     <section id="home" class="hero">
-      <div class="hero-backdrop"></div>
-      <div class="hero-lightning bolt-a"></div>
-      <div class="hero-lightning bolt-b"></div>
-      <div class="hero-debris debris-a"></div>
-      <div class="hero-debris debris-b"></div>
+      <div class="hero-image"></div>
+      <div class="hero-overlay"></div>
 
-      <div class="hero-figure" aria-hidden="true">
-        <div class="figure-head"></div>
-        <div class="figure-body"></div>
-        <div class="figure-arm figure-left"></div>
-        <div class="figure-arm figure-right"></div>
-        <div class="figure-eye figure-eye-left"></div>
-        <div class="figure-eye figure-eye-right"></div>
+      <a class="hero-youtube-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="유튜브"></a>
+      <a class="hero-instagram-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="인스타그램"></a>
+      <a class="hero-enter-link" href="#about" aria-label="들어가기"></a>
+
+      <div class="hero-caption">
+        <p>REFERENCE-DRIVEN CINEMATIC HOMEPAGE</p>
+        <span>스크롤하면 실제 콘텐츠 영역이 이어집니다.</span>
       </div>
-
-      <div class="hero-content reveal">
-        <p>WELCOME TO <span>미치카츠</span> WORLD</p>
-        <h2>미치카츠TV</h2>
-        <div class="hero-line"></div>
-        <h3>입장을 해볼까요?</h3>
-        <a href="#about" class="enter-link">들어가기</a>
-      </div>
-
-      <aside class="hero-social">
-        <a class="youtube" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
-          <span>▶</span>
-          <small>YOUTUBE</small>
-        </a>
-        <a class="instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-          <span>◎</span>
-          <small>INSTAGRAM</small>
-        </a>
-      </aside>
-
-      <div class="hero-music-widget">
-        <div class="music-state">
-          <span>MUSIC ON</span>
-          <strong id="heroMusicStatus">40%</strong>
-        </div>
-        <div class="music-circle">♫</div>
-      </div>
-
-      <div class="scroll-down">⌄<br>⌄</div>
     </section>
 
     <section id="about" class="section about-section">
       <div class="section-heading reveal">
         <p>01 / ABOUT</p>
-        <h3>ABOUT 미치카츠TV</h3>
+        <h2>ABOUT 미치카츠TV</h2>
       </div>
 
       <div class="about-grid">
         <article class="about-copy reveal">
           <p>
             게임, 일상, 리뷰, 도전 등 다양한 콘텐츠로 재미와 감동을 전해드리는 미치카츠TV입니다.
-            새로운 경험을 기록하고, 더 강한 콘텐츠로 계속 성장합니다.
+            새로운 경험을 기록하고 더 강한 콘텐츠로 계속 성장합니다.
           </p>
           <a href="#contact" class="outline-button">자세히 보기 →</a>
         </article>
@@ -152,7 +96,7 @@
         <a class="promo-card youtube reveal" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
           <div class="promo-icon">▶</div>
           <span>YOUTUBE</span>
-          <h4>미치카츠TV 채널</h4>
+          <h3>미치카츠TV 채널</h3>
           <p>재미있는 영상이 가득! 지금 구독하고 함께 즐겨요.</p>
           <strong>구독하기 →</strong>
         </a>
@@ -160,7 +104,7 @@
         <a class="promo-card instagram reveal" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
           <div class="promo-icon">◎</div>
           <span>INSTAGRAM</span>
-          <h4>미치카츠TV 일상</h4>
+          <h3>미치카츠TV 일상</h3>
           <p>일상과 소식, 비하인드까지! 지금 팔로우하고 함께해요.</p>
           <strong>팔로우하기 →</strong>
         </a>
@@ -170,7 +114,7 @@
     <section id="gallery" class="section">
       <div class="section-heading reveal">
         <p>02 / GALLERY</p>
-        <h3>GAMMA ARCHIVE</h3>
+        <h2>GAMMA ARCHIVE</h2>
       </div>
       <div class="gallery-grid">
         <div class="gallery-card g1 reveal"><span>ENERGY</span></div>
@@ -185,22 +129,23 @@
     <section id="videos" class="section">
       <div class="section-heading reveal">
         <p>03 / VIDEOS</p>
-        <h3>FEATURED CONTENT</h3>
+        <h2>FEATURED CONTENT</h2>
       </div>
+
       <div class="video-grid">
         <a href="#" class="video-card reveal">
           <div class="video-thumb"><span>▶</span></div>
-          <h4>첫 번째 대표 영상</h4>
+          <h3>첫 번째 대표 영상</h3>
           <p>유튜브 영상 주소와 썸네일을 연결할 수 있습니다.</p>
         </a>
         <a href="#" class="video-card reveal">
           <div class="video-thumb"><span>▶</span></div>
-          <h4>두 번째 대표 영상</h4>
+          <h3>두 번째 대표 영상</h3>
           <p>새 콘텐츠를 계속 추가할 수 있습니다.</p>
         </a>
         <a href="#" class="video-card reveal">
           <div class="video-thumb"><span>▶</span></div>
-          <h4>세 번째 대표 영상</h4>
+          <h3>세 번째 대표 영상</h3>
           <p>영상 카테고리와 링크를 자유롭게 바꿀 수 있습니다.</p>
         </a>
       </div>
@@ -209,13 +154,13 @@
     <section id="gaming" class="section">
       <div class="section-heading reveal">
         <p>04 / GAMING</p>
-        <h3>MISSION CONTROL</h3>
+        <h2>MISSION CONTROL</h2>
       </div>
 
       <div class="mission-panel reveal">
         <div>
           <p class="eyebrow">NEXT CHALLENGE</p>
-          <h4>게임 · 리뷰 · 도전 콘텐츠</h4>
+          <h3>게임 · 리뷰 · 도전 콘텐츠</h3>
           <p>게임 카테고리, 라이브 방송 일정, 업로드 계획을 이곳에서 안내할 수 있습니다.</p>
         </div>
         <div class="power-box">
@@ -226,33 +171,10 @@
       </div>
     </section>
 
-    <section id="social" class="section">
-      <div class="section-heading reveal">
-        <p>05 / SOCIAL</p>
-        <h3>FOLLOW 미치카츠TV</h3>
-      </div>
-
-      <div class="social-grid">
-        <a class="social-card youtube reveal" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
-          <div class="social-top"><span class="social-icon">▶</span><small>YOUTUBE</small></div>
-          <h4>미치카츠TV 채널</h4>
-          <p>영상과 새로운 콘텐츠를 확인하세요.</p>
-          <strong>구독하러 가기 ↗</strong>
-        </a>
-
-        <a class="social-card instagram reveal" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-          <div class="social-top"><span class="social-icon">◎</span><small>INSTAGRAM</small></div>
-          <h4>미치카츠TV 일상</h4>
-          <p>사진과 실시간 소식을 만나보세요.</p>
-          <strong>팔로우하러 가기 ↗</strong>
-        </a>
-      </div>
-    </section>
-
     <section id="contact" class="section">
       <div class="contact-card reveal">
         <p class="eyebrow">READY TO CONNECT?</p>
-        <h3>LET'S BUILD<br>THE NEXT THING.</h3>
+        <h2>LET'S BUILD<br>THE NEXT THING.</h2>
         <p>문의 이메일과 SNS 주소를 자유롭게 연결할 수 있습니다.</p>
         <a class="primary-button" href="mailto:your@email.com">CONTACT ME</a>
       </div>

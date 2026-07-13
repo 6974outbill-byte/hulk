@@ -7,6 +7,7 @@ const SETTINGS = {
 const bgm = document.getElementById("bgm");
 const intro = document.getElementById("intro");
 const enterButton = document.getElementById("enterButton");
+const introMusicButton = document.getElementById("introMusicButton");
 const flashLayer = document.getElementById("flashLayer");
 const shockLayer = document.getElementById("shockLayer");
 
@@ -18,14 +19,13 @@ const musicPanel = document.getElementById("musicPanel");
 const musicStatus = document.getElementById("musicStatus");
 const volumeSlider = document.getElementById("volumeSlider");
 const volumeValue = document.getElementById("volumeValue");
-const heroMusicStatus = document.getElementById("heroMusicStatus");
 
 const themeToggle = document.getElementById("themeToggle");
 const menuButton = document.getElementById("menuButton");
 const mainNav = document.getElementById("mainNav");
 
-document.querySelectorAll(".youtube").forEach(el => el.href = SETTINGS.youtube);
-document.querySelectorAll(".instagram").forEach(el => el.href = SETTINGS.instagram);
+document.querySelectorAll(".youtube, .youtube-hotspot, .hero-youtube-link").forEach(el => el.href = SETTINGS.youtube);
+document.querySelectorAll(".instagram, .instagram-hotspot, .hero-instagram-link").forEach(el => el.href = SETTINGS.instagram);
 document.querySelector('a[href^="mailto:"]').href = `mailto:${SETTINGS.email}`;
 
 bgm.volume = 0.4;
@@ -38,7 +38,7 @@ function updatePlayerUI() {
   musicText.textContent = playing ? `MUSIC ON · ${vol}%` : "MUSIC OFF";
   panelPlay.textContent = playing ? "❚❚" : "▶";
   musicStatus.textContent = playing ? "PLAYING" : "PAUSED";
-  heroMusicStatus.textContent = `${vol}%`;
+  introMusicButton.innerHTML = playing ? `MUSIC ♫ ON <b>${vol}%</b>` : "MUSIC OFF";
   musicPanel.classList.toggle("playing", playing);
 }
 
@@ -72,6 +72,7 @@ enterButton.addEventListener("click", async () => {
   await playMusic();
 });
 
+introMusicButton.addEventListener("click", toggleMusic);
 musicToggle.addEventListener("click", toggleMusic);
 panelPlay.addEventListener("click", toggleMusic);
 bgm.addEventListener("play", updatePlayerUI);
@@ -164,60 +165,12 @@ function drawParticles() {
   requestAnimationFrame(drawParticles);
 }
 
-const introCanvas = document.getElementById("introCanvas");
-const ictx = introCanvas.getContext("2d");
-let embers = [];
-
-function resizeIntroCanvas() {
-  const ratio = window.devicePixelRatio || 1;
-  introCanvas.width = innerWidth * ratio;
-  introCanvas.height = innerHeight * ratio;
-  introCanvas.style.width = innerWidth + "px";
-  introCanvas.style.height = innerHeight + "px";
-  ictx.setTransform(ratio, 0, 0, ratio, 0, 0);
-}
-
-function createEmber() {
-  return {
-    x: Math.random() * innerWidth,
-    y: innerHeight + Math.random() * 120,
-    r: Math.random() * 2.5 + 0.5,
-    speed: Math.random() * 1.2 + 0.4,
-    drift: (Math.random() - 0.5) * 0.6,
-    a: Math.random() * 0.7 + 0.2
-  };
-}
-
-function resetEmbers() {
-  embers = Array.from({ length: innerWidth < 700 ? 45 : 85 }, createEmber);
-}
-
-function drawEmbers() {
-  ictx.clearRect(0, 0, innerWidth, innerHeight);
-  embers.forEach(e => {
-    e.y -= e.speed;
-    e.x += e.drift;
-    if (e.y < -10) Object.assign(e, createEmber());
-    ictx.beginPath();
-    ictx.fillStyle = `rgba(99,255,71,${e.a})`;
-    ictx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
-    ictx.fill();
-  });
-  requestAnimationFrame(drawEmbers);
-}
-
 addEventListener("resize", () => {
-  resizeCanvas(); resetParticles();
-  resizeIntroCanvas(); resetEmbers();
+  resizeCanvas();
+  resetParticles();
 });
 
-resizeCanvas(); resetParticles(); drawParticles();
-resizeIntroCanvas(); resetEmbers(); drawEmbers();
+resizeCanvas();
+resetParticles();
+drawParticles();
 updatePlayerUI();
-
-setInterval(() => {
-  if (Math.random() > 0.68 && intro.classList.contains("hide")) {
-    flashLayer.classList.add("active");
-    setTimeout(() => flashLayer.classList.remove("active"), 400);
-  }
-}, 5600);
