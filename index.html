@@ -1,30 +1,186 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>HULK</title>
-<style>
-body{
-margin:0;
-background:#111;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-font-family:Arial;
-color:#00ff55;
-}
-
-h1{
-font-size:70px;
-letter-spacing:8px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07120a" />
+  <meta name="description" content="HULK — gamma-powered personal portfolio website" />
+  <title>HULK | Gamma World</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <div class="noise"></div>
+  <div class="gamma-bg" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+    <span class="crack crack-1"></span>
+    <span class="crack crack-2"></span>
+  </div>
 
-<h1>HULK페이지에 온걸 환영한다</h1>
+  <header class="site-header">
+    <a class="logo" href="#home" aria-label="HULK 홈">
+      <span class="logo-mark">H</span>
+      <span class="logo-text">HULK</span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="navMenu">
+      <a href="#home">HOME</a>
+      <a href="#about">ABOUT</a>
+      <a href="#projects">PROJECTS</a>
+      <a href="#gallery">GALLERY</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </header>
 
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-grid"></div>
+      <div class="hero-content reveal">
+        <p class="eyebrow">GAMMA POWERED PERSONAL WORLD</p>
+        <h1>
+          <span class="tiny">WELCOME TO</span>
+          <span class="main-title" data-text="HULK">HULK</span>
+        </h1>
+        <p class="hero-copy">
+          어둠 속에서 깨어나는 에너지.<br />
+          나만의 프로젝트와 기록을 한곳에 담은 개인 공간입니다.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#about">ENTER</a>
+          <a class="btn ghost" href="#projects">VIEW PROJECTS</a>
+        </div>
+      </div>
+
+      <div class="hero-figure" aria-hidden="true">
+        <div class="energy-ring ring-1"></div>
+        <div class="energy-ring ring-2"></div>
+        <div class="silhouette">
+          <div class="head"></div>
+          <div class="shoulder left"></div>
+          <div class="shoulder right"></div>
+          <div class="torso"></div>
+        </div>
+        <div class="ground-smash"></div>
+      </div>
+
+      <div class="scroll-indicator">
+        <span>SCROLL</span>
+        <i></i>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="section-heading reveal">
+        <p>01 / ABOUT</p>
+        <h2>POWER. FOCUS. EVOLUTION.</h2>
+      </div>
+      <div class="about-grid">
+        <article class="glass-card reveal">
+          <span class="card-no">01</span>
+          <h3>ABOUT ME</h3>
+          <p>
+            새로운 아이디어를 만들고, 직접 실행하고, 더 강하게 발전시키는 과정을 좋아합니다.
+            이 공간은 나의 관심사와 프로젝트를 기록하는 개인 베이스캠프입니다.
+          </p>
+        </article>
+        <article class="glass-card reveal">
+          <span class="card-no">02</span>
+          <h3>MY STYLE</h3>
+          <p>
+            강렬한 비주얼, 빠른 실행, 깔끔한 구조를 중요하게 생각합니다.
+            PC와 모바일 어디서든 자연스럽게 보이도록 구성했습니다.
+          </p>
+        </article>
+        <article class="glass-card reveal">
+          <span class="card-no">03</span>
+          <h3>MISSION</h3>
+          <p>
+            평범한 페이지가 아니라 기억에 남는 경험을 만드는 것.
+            이 사이트는 계속 확장되고 업그레이드됩니다.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section projects" id="projects">
+      <div class="section-heading reveal">
+        <p>02 / PROJECTS</p>
+        <h2>BUILD SOMETHING POWERFUL</h2>
+      </div>
+
+      <div class="project-list">
+        <article class="project-card reveal">
+          <div class="project-visual visual-one">
+            <span>01</span>
+          </div>
+          <div class="project-info">
+            <p class="project-tag">WEB PROJECT</p>
+            <h3>PERSONAL LANDING PAGE</h3>
+            <p>강한 첫인상과 반응형 구조를 갖춘 개인 홈페이지.</p>
+            <a href="#contact">DETAILS <span>↗</span></a>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-visual visual-two">
+            <span>02</span>
+          </div>
+          <div class="project-info">
+            <p class="project-tag">DESIGN SYSTEM</p>
+            <h3>GAMMA UI COLLECTION</h3>
+            <p>네온 그린, 다크 글래스, 에너지 효과를 활용한 UI 스타일.</p>
+            <a href="#gallery">DETAILS <span>↗</span></a>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-visual visual-three">
+            <span>03</span>
+          </div>
+          <div class="project-info">
+            <p class="project-tag">NEXT PROJECT</p>
+            <h3>COMING SOON</h3>
+            <p>새로운 프로젝트가 준비되는 공간입니다.</p>
+            <a href="#contact">CONTACT <span>↗</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section gallery" id="gallery">
+      <div class="section-heading reveal">
+        <p>03 / GALLERY</p>
+        <h2>GAMMA ARCHIVE</h2>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item g1 reveal"><span>ENERGY</span></div>
+        <div class="gallery-item g2 reveal"><span>IMPACT</span></div>
+        <div class="gallery-item g3 reveal"><span>POWER</span></div>
+        <div class="gallery-item g4 reveal"><span>EVOLUTION</span></div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="contact-panel reveal">
+        <p class="eyebrow">READY TO CONNECT?</p>
+        <h2>LET'S BUILD<br />THE NEXT THING.</h2>
+        <p>이메일 또는 원하는 SNS 링크를 이곳에 연결할 수 있습니다.</p>
+        <a class="btn primary" href="mailto:your@email.com">CONTACT ME</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> HULK. ALL RIGHTS RESERVED.</p>
+    <p>POWERED BY CLOUDFLARE PAGES</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
