@@ -5,9 +5,9 @@ const SETTINGS = {
 };
 
 const bgm = document.getElementById("bgm");
-const intro = document.getElementById("intro");
 const enterButton = document.getElementById("enterButton");
-const introMusicButton = document.getElementById("introMusicButton");
+const introOverlay = document.getElementById("introOverlay");
+const landingMusicButton = document.getElementById("landingMusicButton");
 const flashLayer = document.getElementById("flashLayer");
 const shockLayer = document.getElementById("shockLayer");
 
@@ -24,8 +24,8 @@ const themeToggle = document.getElementById("themeToggle");
 const menuButton = document.getElementById("menuButton");
 const mainNav = document.getElementById("mainNav");
 
-document.querySelectorAll(".youtube, .youtube-hotspot, .hero-youtube-link").forEach(el => el.href = SETTINGS.youtube);
-document.querySelectorAll(".instagram, .instagram-hotspot, .hero-instagram-link").forEach(el => el.href = SETTINGS.instagram);
+document.querySelectorAll(".youtube, .youtube-hotspot").forEach(el => el.href = SETTINGS.youtube);
+document.querySelectorAll(".instagram, .instagram-hotspot").forEach(el => el.href = SETTINGS.instagram);
 document.querySelector('a[href^="mailto:"]').href = `mailto:${SETTINGS.email}`;
 
 bgm.volume = 0.4;
@@ -38,7 +38,7 @@ function updatePlayerUI() {
   musicText.textContent = playing ? `MUSIC ON · ${vol}%` : "MUSIC OFF";
   panelPlay.textContent = playing ? "❚❚" : "▶";
   musicStatus.textContent = playing ? "PLAYING" : "PAUSED";
-  introMusicButton.innerHTML = playing ? `MUSIC ♫ ON <b>${vol}%</b>` : "MUSIC OFF";
+  landingMusicButton.innerHTML = playing ? `MUSIC ♫ ON <b>${vol}%</b>` : "MUSIC OFF";
   musicPanel.classList.toggle("playing", playing);
 }
 
@@ -53,9 +53,15 @@ function toggleMusic() {
   else { bgm.pause(); updatePlayerUI(); }
 }
 
-enterButton.addEventListener("click", async () => {
+let entering = false;
+
+async function enterSite() {
+  if (entering) return;
+  entering = true;
+
   flashLayer.classList.add("active");
   shockLayer.classList.add("active");
+
   document.body.animate(
     [
       { transform: "translate(0,0)" },
@@ -66,13 +72,44 @@ enterButton.addEventListener("click", async () => {
     ],
     { duration: 520, easing: "ease-out" }
   );
+
   setTimeout(() => flashLayer.classList.remove("active"), 430);
   setTimeout(() => shockLayer.classList.remove("active"), 720);
-  intro.classList.add("hide");
+
   await playMusic();
+  introOverlay.classList.add("hide");
+
+  setTimeout(() => {
+    introOverlay.style.display = "none";
+    document.getElementById("home").scrollIntoView({ behavior: "smooth" });
+  }, 900);
+}
+
+enterButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  enterSite();
 });
 
-introMusicButton.addEventListener("click", toggleMusic);
+/* Fallback: clicking the background area also enters.
+   Social and music controls remain independently clickable. */
+introOverlay.addEventListener("click", (event) => {
+  if (
+    event.target.closest(".youtube-hotspot") ||
+    event.target.closest(".instagram-hotspot") ||
+    event.target.closest("#landingMusicButton")
+  ) return;
+  enterSite();
+});
+
+document.addEventListener("keydown", (event) => {
+  if ((event.key === "Enter" || event.key === " ") && !introOverlay.classList.contains("hide")) {
+    event.preventDefault();
+    enterSite();
+  }
+});
+
+landingMusicButton.addEventListener("click", toggleMusic);
 musicToggle.addEventListener("click", toggleMusic);
 panelPlay.addEventListener("click", toggleMusic);
 bgm.addEventListener("play", updatePlayerUI);
