@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#040805" />
-  <meta name="description" content="미치카츠TV 공식 개인 홈페이지" />
-  <title>미치카츠TV | Welcome to 미치카츠 World</title>
+  <meta name="theme-color" content="#030704" />
+  <meta name="description" content="미치카츠TV 개인 홈페이지" />
+  <title>미치카츠TV</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -15,184 +15,203 @@
   <audio id="bgm" src="music/club1.mp3" preload="auto" loop></audio>
 
   <div id="enterGate" class="enter-gate">
-    <div class="gate-lightning"></div>
+    <div class="gate-grid"></div>
+    <div class="gate-orbit orbit-a"></div>
+    <div class="gate-orbit orbit-b"></div>
     <div class="gate-content">
-      <p class="gate-kicker">WELCOME TO 미치카츠 WORLD</p>
+      <p>WELCOME TO 미치카츠 WORLD</p>
       <h1>미치카츠TV</h1>
-      <p class="gate-copy">입장을 해볼까요?</p>
-      <button id="startExperience" class="enter-btn">들어가기</button>
-      <div class="gate-hint">음악은 40% 볼륨으로 시작되며 자동 반복됩니다.</div>
+      <span>입장을 해볼까요?</span>
+      <button id="startExperience">들어가기</button>
+      <small>음악은 40% 볼륨으로 재생되며 자동 반복됩니다.</small>
     </div>
   </div>
 
-  <canvas id="particleCanvas" aria-hidden="true"></canvas>
-  <div class="flash-layer" id="flashLayer"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div id="flash" class="flash"></div>
 
-  <header class="site-header">
+  <header>
     <a class="brand" href="#home">
-      <span class="brand-badge">M</span>
-      <span>미치카츠TV</span>
+      <span class="brand-mark">M</span>
+      <strong>미치카츠TV</strong>
     </a>
 
-    <button id="menuBtn" class="menu-btn" aria-label="메뉴 열기" aria-expanded="false">
-      <span></span><span></span><span></span>
+    <button id="menuButton" class="menu-button" aria-label="메뉴 열기" aria-expanded="false">
+      <i></i><i></i><i></i>
     </button>
 
-    <nav id="navMenu">
+    <nav id="nav">
       <a href="#home">HOME</a>
       <a href="#about">ABOUT</a>
       <a href="#gallery">GALLERY</a>
       <a href="#videos">VIDEOS</a>
-      <a href="#gaming">GAMING</a>
       <a href="#social">SOCIAL</a>
       <a href="#contact">CONTACT</a>
     </nav>
 
-    <div class="header-tools">
-      <button id="themeToggle" class="icon-btn" title="테마 전환">☾</button>
-      <button id="musicControl" class="music-btn">
-        <span id="musicIcon">▶</span>
-        <span id="musicLabel">MUSIC OFF</span>
-      </button>
-    </div>
+    <button id="musicButton" class="music-button">
+      <span id="musicIcon">▶</span>
+      <span id="musicText">MUSIC OFF</span>
+    </button>
   </header>
 
   <main>
     <section id="home" class="hero">
-      <div class="hero-overlay"></div>
-      <div class="hero-noise"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-lines"></div>
+
+      <div class="hero-figure" aria-hidden="true">
+        <div class="figure-head"></div>
+        <div class="figure-body"></div>
+        <div class="figure-arm arm-left"></div>
+        <div class="figure-arm arm-right"></div>
+      </div>
+
       <div class="hero-content reveal">
         <p class="eyebrow">WELCOME TO 미치카츠 WORLD</p>
         <h2>미치카츠TV</h2>
-        <p class="hero-copy">게임, 일상, 리뷰, 도전 그리고 나만의 기록.<br>강렬한 에너지로 채운 미치카츠TV의 세계입니다.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#about">자세히 보기</a>
-          <a class="btn ghost" href="#social">채널 바로가기</a>
+        <p class="hero-description">
+          게임, 일상, 리뷰, 도전 그리고 나만의 기록.<br>
+          강렬한 에너지로 채운 미치카츠TV의 세계입니다.
+        </p>
+        <div class="hero-buttons">
+          <a href="#about" class="button primary">자세히 보기</a>
+          <a href="#social" class="button secondary">채널 바로가기</a>
         </div>
       </div>
 
-      <div class="shockwave"></div>
-      <div class="scroll-cue">SCROLL ↓</div>
+      <div class="scroll-label">SCROLL ↓</div>
     </section>
 
-    <section id="about" class="section about">
-      <div class="section-heading reveal">
+    <section id="about" class="section">
+      <div class="section-title reveal">
         <p>01 / ABOUT</p>
         <h3>ABOUT 미치카츠TV</h3>
       </div>
+
       <div class="about-layout">
-        <div class="about-copy reveal">
-          <p>재미와 감동, 정보와 도전을 한곳에 담는 개인 채널입니다. 새로운 콘텐츠를 만들고, 경험을 기록하며, 구독자와 함께 성장하는 공간을 목표로 합니다.</p>
-          <div class="pill-row">
-            <span>PASSION</span><span>FOCUS</span><span>POWER</span>
+        <article class="about-card reveal">
+          <p>
+            재미와 감동, 정보와 도전을 한곳에 담는 개인 채널입니다.
+            새로운 콘텐츠를 만들고 경험을 기록하며, 구독자와 함께 성장하는 공간을 목표로 합니다.
+          </p>
+          <div class="tags">
+            <span>PASSION</span>
+            <span>FOCUS</span>
+            <span>POWER</span>
           </div>
-        </div>
-        <div class="stat-grid">
-          <article class="stat-card reveal"><strong>01</strong><span>영상 콘텐츠</span></article>
-          <article class="stat-card reveal"><strong>02</strong><span>일상과 리뷰</span></article>
-          <article class="stat-card reveal"><strong>03</strong><span>게임과 도전</span></article>
-        </div>
+        </article>
+
+        <article class="metric reveal">
+          <strong>01</strong>
+          <span>영상 콘텐츠</span>
+        </article>
+        <article class="metric reveal">
+          <strong>02</strong>
+          <span>일상과 리뷰</span>
+        </article>
+        <article class="metric reveal">
+          <strong>03</strong>
+          <span>게임과 도전</span>
+        </article>
       </div>
     </section>
 
     <section id="gallery" class="section">
-      <div class="section-heading reveal">
+      <div class="section-title reveal">
         <p>02 / GALLERY</p>
         <h3>GAMMA ARCHIVE</h3>
       </div>
-      <div class="gallery-grid">
-        <div class="gallery-card g1 reveal"><span>ENERGY</span></div>
-        <div class="gallery-card g2 reveal"><span>IMPACT</span></div>
-        <div class="gallery-card g3 reveal"><span>POWER</span></div>
-        <div class="gallery-card g4 reveal"><span>EVOLUTION</span></div>
-        <div class="gallery-card g5 reveal"><span>FOCUS</span></div>
-        <div class="gallery-card g6 reveal"><span>WORLD</span></div>
+
+      <div class="gallery">
+        <div class="gallery-item g1 reveal"><span>ENERGY</span></div>
+        <div class="gallery-item g2 reveal"><span>IMPACT</span></div>
+        <div class="gallery-item g3 reveal"><span>POWER</span></div>
+        <div class="gallery-item g4 reveal"><span>EVOLUTION</span></div>
+        <div class="gallery-item g5 reveal"><span>FOCUS</span></div>
+        <div class="gallery-item g6 reveal"><span>WORLD</span></div>
       </div>
     </section>
 
     <section id="videos" class="section">
-      <div class="section-heading reveal">
+      <div class="section-title reveal">
         <p>03 / VIDEOS</p>
         <h3>FEATURED CONTENT</h3>
       </div>
+
       <div class="video-grid">
-        <article class="video-card reveal">
+        <a href="#" class="video-card reveal">
           <div class="video-thumb"><span>▶</span></div>
           <h4>첫 번째 대표 영상</h4>
-          <p>유튜브 영상 주소를 연결할 수 있는 자리입니다.</p>
-        </article>
-        <article class="video-card reveal">
+          <p>유튜브 영상 주소를 연결할 수 있습니다.</p>
+        </a>
+        <a href="#" class="video-card reveal">
           <div class="video-thumb"><span>▶</span></div>
           <h4>두 번째 대표 영상</h4>
-          <p>새로운 콘텐츠를 계속 추가할 수 있습니다.</p>
-        </article>
-        <article class="video-card reveal">
+          <p>새 콘텐츠를 계속 추가할 수 있습니다.</p>
+        </a>
+        <a href="#" class="video-card reveal">
           <div class="video-thumb"><span>▶</span></div>
           <h4>세 번째 대표 영상</h4>
           <p>썸네일과 링크를 자유롭게 바꿀 수 있습니다.</p>
-        </article>
+        </a>
       </div>
     </section>
 
-    <section id="gaming" class="section gaming">
-      <div class="section-heading reveal">
-        <p>04 / GAMING</p>
-        <h3>MISSION CONTROL</h3>
-      </div>
-      <div class="gaming-panel reveal">
-        <div>
-          <p class="eyebrow">NEXT CHALLENGE</p>
-          <h4>게임 · 리뷰 · 도전 콘텐츠</h4>
-          <p>원하는 게임 카테고리, 업로드 일정, 라이브 방송 정보를 여기에 넣을 수 있습니다.</p>
-        </div>
-        <div class="mission-meter">
-          <span>POWER LEVEL</span>
-          <div><i style="width:82%"></i></div>
-          <strong>82%</strong>
-        </div>
-      </div>
-    </section>
-
-    <section id="social" class="section social">
-      <div class="section-heading reveal">
-        <p>05 / SOCIAL</p>
+    <section id="social" class="section">
+      <div class="section-title reveal">
+        <p>04 / SOCIAL</p>
         <h3>FOLLOW 미치카츠TV</h3>
       </div>
+
       <div class="social-grid">
         <a class="social-card youtube reveal" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
           <div class="social-icon">▶</div>
           <span>YOUTUBE</span>
           <h4>미치카츠TV 채널</h4>
-          <p>재미있는 영상과 새로운 콘텐츠를 확인하세요.</p>
+          <p>영상과 새로운 콘텐츠를 확인하세요.</p>
           <strong>구독하러 가기 ↗</strong>
         </a>
+
         <a class="social-card instagram reveal" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
           <div class="social-icon">◎</div>
           <span>INSTAGRAM</span>
           <h4>미치카츠TV 일상</h4>
-          <p>사진, 소식, 비하인드 콘텐츠를 만나보세요.</p>
+          <p>사진과 실시간 소식을 만나보세요.</p>
           <strong>팔로우하러 가기 ↗</strong>
         </a>
       </div>
     </section>
 
-    <section id="contact" class="section contact">
-      <div class="contact-panel reveal">
+    <section id="contact" class="section">
+      <div class="contact-card reveal">
         <p class="eyebrow">READY TO CONNECT?</p>
         <h3>LET'S BUILD<br>THE NEXT THING.</h3>
         <p>문의 이메일과 SNS 주소를 자유롭게 연결할 수 있습니다.</p>
-        <a class="btn primary" href="mailto:your@email.com">CONTACT ME</a>
+        <a class="button primary" href="mailto:your@email.com">CONTACT ME</a>
       </div>
     </section>
   </main>
 
   <footer>
-    <div><strong>미치카츠TV</strong><br><span>© <span id="year"></span> All rights reserved.</span></div>
-    <div class="footer-values"><span>⚡ PASSION</span><span>◉ FOCUS</span><span>💪 POWER</span></div>
-    <div class="clock-wrap"><strong id="liveClock">00:00:00</strong><span id="liveDate">0000.00.00</span></div>
+    <div>
+      <strong>미치카츠TV</strong>
+      <small>© <span id="year"></span> All rights reserved.</small>
+    </div>
+
+    <div class="footer-keywords">
+      <span>⚡ PASSION</span>
+      <span>◉ FOCUS</span>
+      <span>💪 POWER</span>
+    </div>
+
+    <div class="clock">
+      <strong id="time">00:00:00</strong>
+      <span id="date">0000.00.00</span>
+    </div>
   </footer>
 
-  <button id="toTop" class="to-top" aria-label="맨 위로">↑</button>
+  <button id="topButton" class="top-button" aria-label="맨 위로">↑</button>
 
   <script src="script.js"></script>
 </body>

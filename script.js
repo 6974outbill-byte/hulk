@@ -1,4 +1,3 @@
-
 const SETTINGS = {
   youtube: "https://www.youtube.com/",
   instagram: "https://www.instagram.com/",
@@ -8,13 +7,12 @@ const SETTINGS = {
 const bgm = document.getElementById("bgm");
 const enterGate = document.getElementById("enterGate");
 const startExperience = document.getElementById("startExperience");
-const musicControl = document.getElementById("musicControl");
+const musicButton = document.getElementById("musicButton");
 const musicIcon = document.getElementById("musicIcon");
-const musicLabel = document.getElementById("musicLabel");
-const flashLayer = document.getElementById("flashLayer");
-const themeToggle = document.getElementById("themeToggle");
-const menuBtn = document.getElementById("menuBtn");
-const navMenu = document.getElementById("navMenu");
+const musicText = document.getElementById("musicText");
+const flash = document.getElementById("flash");
+const menuButton = document.getElementById("menuButton");
+const nav = document.getElementById("nav");
 
 document.querySelector(".youtube").href = SETTINGS.youtube;
 document.querySelector(".instagram").href = SETTINGS.instagram;
@@ -23,103 +21,139 @@ document.querySelector('a[href^="mailto:"]').href = `mailto:${SETTINGS.email}`;
 bgm.volume = 0.4;
 bgm.loop = true;
 
-function updateMusicUI(){
-  const on = !bgm.paused;
-  musicIcon.textContent = on ? "❚❚" : "▶";
-  musicLabel.textContent = on ? "MUSIC ON · 40%" : "MUSIC OFF";
+function updateMusicUI() {
+  const playing = !bgm.paused;
+  musicIcon.textContent = playing ? "❚❚" : "▶";
+  musicText.textContent = playing ? "MUSIC ON · 40%" : "MUSIC OFF";
 }
-async function playMusic(){
-  try{ await bgm.play(); }catch(e){ console.warn("자동 재생이 차단되었습니다.", e); }
+
+async function startMusic() {
+  try {
+    await bgm.play();
+  } catch (error) {
+    console.warn("브라우저가 자동 재생을 차단했습니다.", error);
+  }
   updateMusicUI();
 }
-startExperience.addEventListener("click", async ()=>{
-  flashLayer.classList.add("active");
-  setTimeout(()=>flashLayer.classList.remove("active"),500);
-  document.body.animate(
-    [{transform:"translate(0,0)"},{transform:"translate(-8px,5px)"},{transform:"translate(7px,-4px)"},{transform:"translate(0,0)"}],
-    {duration:420}
-  );
+
+startExperience.addEventListener("click", async () => {
+  flash.classList.add("active");
+  setTimeout(() => flash.classList.remove("active"), 420);
   enterGate.classList.add("hide");
-  await playMusic();
+  await startMusic();
 });
-musicControl.addEventListener("click", async ()=>{
-  if(bgm.paused) await playMusic();
-  else{ bgm.pause(); updateMusicUI(); }
+
+musicButton.addEventListener("click", async () => {
+  if (bgm.paused) {
+    await startMusic();
+  } else {
+    bgm.pause();
+    updateMusicUI();
+  }
 });
-bgm.addEventListener("play",updateMusicUI);
-bgm.addEventListener("pause",updateMusicUI);
+
+bgm.addEventListener("play", updateMusicUI);
+bgm.addEventListener("pause", updateMusicUI);
 updateMusicUI();
 
-menuBtn.addEventListener("click",()=>{
-  const open = navMenu.classList.toggle("open");
-  menuBtn.setAttribute("aria-expanded",open);
-});
-document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>navMenu.classList.remove("open")));
-
-themeToggle.addEventListener("click",()=>{
-  document.body.classList.toggle("light-mode");
-  themeToggle.textContent = document.body.classList.contains("light-mode") ? "☀" : "☾";
+menuButton.addEventListener("click", () => {
+  const isOpen = nav.classList.toggle("open");
+  menuButton.setAttribute("aria-expanded", isOpen);
 });
 
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting) entry.target.classList.add("show");
+document.querySelectorAll("nav a").forEach((link) => {
+  link.addEventListener("click", () => nav.classList.remove("open"));
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) entry.target.classList.add("show");
   });
-},{threshold:.13});
-document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+}, { threshold: 0.12 });
 
-const toTop = document.getElementById("toTop");
-toTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
 
-function updateClock(){
+document.getElementById("topButton").addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+function updateClock() {
   const now = new Date();
-  document.getElementById("liveClock").textContent = now.toLocaleTimeString("ko-KR",{hour12:false});
-  document.getElementById("liveDate").textContent = now.toLocaleDateString("ko-KR",{year:"numeric",month:"2-digit",day:"2-digit",weekday:"short"});
+  document.getElementById("time").textContent =
+    now.toLocaleTimeString("ko-KR", { hour12: false });
+  document.getElementById("date").textContent =
+    now.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      weekday: "short"
+    });
 }
-setInterval(updateClock,1000); updateClock();
+
+setInterval(updateClock, 1000);
+updateClock();
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Gamma particles
-const canvas = document.getElementById("particleCanvas");
+const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 let particles = [];
-function resize(){
-  canvas.width = innerWidth * devicePixelRatio;
-  canvas.height = innerHeight * devicePixelRatio;
-  canvas.style.width = innerWidth+"px";
-  canvas.style.height = innerHeight+"px";
-  ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+
+function resizeCanvas() {
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = innerWidth * ratio;
+  canvas.height = innerHeight * ratio;
+  canvas.style.width = innerWidth + "px";
+  canvas.style.height = innerHeight + "px";
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 }
-function makeParticle(){
+
+function createParticle() {
   return {
-    x:Math.random()*innerWidth,
-    y:Math.random()*innerHeight,
-    r:Math.random()*2+0.5,
-    vx:(Math.random()-.5)*.25,
-    vy:-Math.random()*.35-.05,
-    a:Math.random()*.55+.1
+    x: Math.random() * innerWidth,
+    y: Math.random() * innerHeight,
+    radius: Math.random() * 1.8 + 0.4,
+    vx: (Math.random() - 0.5) * 0.22,
+    vy: -Math.random() * 0.3 - 0.04,
+    alpha: Math.random() * 0.45 + 0.08
   };
 }
-function initParticles(){ particles = Array.from({length:90},makeParticle); }
-function animate(){
-  ctx.clearRect(0,0,innerWidth,innerHeight);
-  for(const p of particles){
-    p.x+=p.vx; p.y+=p.vy;
-    if(p.y<-10) Object.assign(p,makeParticle(),{y:innerHeight+10});
-    ctx.beginPath();
-    ctx.fillStyle=`rgba(101,255,69,${p.a})`;
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-  }
-  requestAnimationFrame(animate);
-}
-addEventListener("resize",()=>{resize();initParticles()});
-resize();initParticles();animate();
 
-// Random lightning flash
-setInterval(()=>{
-  if(Math.random()>.56){
-    flashLayer.classList.add("active");
-    setTimeout(()=>flashLayer.classList.remove("active"),450);
+function resetParticles() {
+  particles = Array.from({ length: 82 }, createParticle);
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+  particles.forEach((particle) => {
+    particle.x += particle.vx;
+    particle.y += particle.vy;
+
+    if (particle.y < -8) {
+      Object.assign(particle, createParticle(), { y: innerHeight + 8 });
+    }
+
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(100,255,71,${particle.alpha})`;
+    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animateParticles);
+}
+
+addEventListener("resize", () => {
+  resizeCanvas();
+  resetParticles();
+});
+
+resizeCanvas();
+resetParticles();
+animateParticles();
+
+setInterval(() => {
+  if (Math.random() > 0.68) {
+    flash.classList.add("active");
+    setTimeout(() => flash.classList.remove("active"), 400);
   }
-},4800);
+}, 5600);
