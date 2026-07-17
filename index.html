@@ -3,124 +3,135 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#08040b">
-  <title>미치카츠TV</title>
+  <meta name="theme-color" content="#07030a">
+  <meta name="description" content="게임, 일상, 리뷰와 도전 콘텐츠를 만나는 미치카츠TV 공식 홈페이지입니다.">
+  <meta name="keywords" content="미치카츠TV, MICHIKATSU TV, 게임, 일상, 리뷰, 유튜브">
+  <meta name="author" content="MICHIKATSU TV">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="미치카츠TV">
+  <meta property="og:title" content="미치카츠TV | MICHIKATSU TV">
+  <meta property="og:description" content="게임, 일상, 리뷰, 도전 등 다양한 콘텐츠로 즐거운 시간을 함께해요!">
+  <meta property="og:image" content="assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="미치카츠TV | MICHIKATSU TV">
+  <meta name="twitter:description" content="게임, 일상, 리뷰, 도전 등 다양한 콘텐츠를 만나보세요.">
+  <meta name="twitter:image" content="assets/og-image.jpg">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>미치카츠TV | MICHIKATSU TV</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/main-home-cinematic.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="assets/intro-michikatsu.webp" as="image" type="image/webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6.9.0">
 </head>
 <body>
+<div id="pageLoader" class="page-loader" aria-label="페이지를 불러오는 중">
+  <div class="loader-emblem"><span>M</span></div>
+  <strong>MICHIKATSU TV</strong>
+  <div class="loader-line"><i></i></div>
+  <small id="loaderPercent">0%</small>
+</div>
+<div id="pageTransition" class="page-transition" aria-hidden="true"><span></span></div>
 <audio id="bgm" preload="metadata"></audio>
-<canvas id="fxCanvas" class="fx-canvas" aria-hidden="true"></canvas>
-<div class="cinematic-fog fog-a" aria-hidden="true"></div>
-<div class="cinematic-fog fog-b" aria-hidden="true"></div>
-<div class="light-rays" aria-hidden="true"></div>
+<canvas id="fxCanvas" aria-hidden="true"></canvas>
 
-<section id="intro" class="intro" aria-label="미치카츠TV 입장 화면">
-  <img id="introImage" src="assets/intro-michikatsu.png" alt="미치카츠TV 인트로">
-  <button id="enterBtn" type="button" aria-label="미치카츠TV 들어가기"></button>
+<section id="intro" class="intro">
+  <img src="assets/intro-michikatsu.webp" fetchpriority="high" decoding="async" alt="미치카츠TV 인트로">
+  <button id="enterBtn" type="button" aria-label="사이트 입장"></button>
 </section>
 
-<header class="header" id="header">
+<header class="topbar">
   <a class="brand" href="#home" aria-label="미치카츠TV 홈">
-    <span class="brand-emblem">M<i>✿</i></span>
+    <span class="brand-mark">M</span>
     <span class="brand-text"><b>미치카츠TV</b><small>MICHIKATSU TV</small></span>
   </a>
-
-  <nav class="main-nav" aria-label="주요 메뉴">
-    <a href="#home" data-section="home" class="active">HOME</a>
-    <a href="#gallery" data-section="gallery">GALLERY</a>
-    <a href="#videos" data-section="videos">VIDEOS</a>
+  <nav aria-label="주요 메뉴">
+    <a class="active" href="#home">HOME</a>
+    <a href="#gallery">GALLERY</a>
+    <a href="#videos">VIDEOS</a>
   </nav>
-
-  <div class="header-actions">
-    <button id="themeBtn" class="icon-btn" type="button" aria-label="화면 분위기 변경">☾</button>
-    <button id="musicBtn" class="icon-btn" type="button" aria-label="음악 재생 또는 정지"><span>▶</span></button>
+  <div class="top-actions">
+    <button id="themeBtn" type="button" aria-label="테마">☾</button>
+    <button id="musicBtn" type="button" aria-label="음악 재생">▷</button>
   </div>
 </header>
 
-<main>
-  <section id="home" class="hero section-observe">
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
-    <div class="petals" id="petals"></div>
-
+<main class="site-main">
+  <section id="home" class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-copy">
-      <div class="eyebrow"><i></i>WELCOME TO<i></i></div>
+      <p class="welcome">WELCOME TO</p>
       <h1>MICHIKATSU <span>TV</span></h1>
-      <p>게임, 일상, 리뷰와 새로운 도전을 기록합니다.<br>미치카츠TV의 이야기를 함께 즐겨보세요.</p>
-      <a class="primary-btn" href="#gallery">지금 시작하기 <span>→</span></a>
-    </div>
-
-    <div class="hero-visual" aria-hidden="true">
-      <div class="moon"></div>
-      <div class="pagoda"></div>
-      <div class="portrait-ring">
-        <img src="assets/profile-michikatsu.jpg" alt="">
+      <p class="hero-desc">게임, 일상, 리뷰, 도전 등 다양한 콘텐츠로<br>즐거운 시간을 함께해요!</p>
+      <div class="hero-buttons">
+        <a href="#gallery" class="btn primary">지금 시작하기 <span>›</span></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="btn ghost">채널 구독하기 <span>▻</span></a>
       </div>
-    </div>
-
-    <div class="feature-row" aria-label="바로가기">
-      <a class="feature-card" href="#home">
-        <span class="feature-icon">⌂</span>
-        <span><b>HOME</b><small>미치카츠TV의 모든 시작<br>최신 소식과 업데이트</small></span>
-        <em>→</em>
-      </a>
-      <a class="feature-card" href="#gallery">
-        <span class="feature-icon">▧</span>
-        <span><b>GALLERY</b><small>다양한 순간들을 담은<br>사진 갤러리</small></span>
-        <em>→</em>
-      </a>
-      <a class="feature-card" href="#videos">
-        <span class="feature-icon">▷</span>
-        <span><b>VIDEOS</b><small>게임, 리뷰, 일상까지<br>재미있는 영상 콘텐츠</small></span>
-        <em>→</em>
-      </a>
-    </div>
-
-    <aside class="player-card" aria-label="현재 재생 중인 음악">
-      <div class="player-head">
-        <span class="player-label">♪ NOW PLAYING</span>
-        <button id="playerCollapseBtn" class="player-collapse" type="button" aria-label="플레이어 접기">−</button>
-      </div>
-      <strong id="trackTitle">음악을 준비 중입니다</strong>
-      <input id="seekBar" class="seek-bar" type="range" min="0" max="100" value="0" step="0.1" aria-label="음악 재생 위치">
-      <div class="player-time"><span id="timeText">00:00 / 00:00</span></div>
-      <div class="player-controls">
-        <button id="prevBtn" type="button" aria-label="이전 곡">│◀</button>
-        <button id="playerBtn" class="main-play" type="button" aria-label="음악 재생 또는 정지">▶</button>
-        <button id="nextBtn" type="button" aria-label="다음 곡">▶│</button>
-      </div>
-      <label class="volume-control" for="volumeBar"><span id="volumeIcon">🔊</span><input id="volumeBar" type="range" min="0" max="100" value="40" step="1"><b id="volumeText">40%</b></label>
-      <div class="equalizer" id="equalizer"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    </aside>
-  </section>
-
-  <section id="gallery" class="content-section section-observe">
-    <div class="section-title"><span>GALLERY</span><h2>핫 클립 모음집</h2><p>이 달의 메인 사진을 확인해 보세요!</p></div>
-    <div class="gallery-grid gallery-grid-six">
-      <button class="gallery-item" type="button"><img src="assets/gallery/gallery1.jpg" alt="갤러리 이미지 1"><span>MOONLIGHT</span></button>
-      <button class="gallery-item" type="button"><img src="assets/gallery/gallery2.png" alt="갤러리 이미지 2"><span>WELCOME</span></button>
-      <button class="gallery-item" type="button"><img src="assets/gallery/gallery3.png" alt="갤러리 이미지 3"><span>NEON NIGHT</span></button>
-      <button class="gallery-item" type="button"><img src="assets/gallery/gallery4.jpg" alt="갤러리 이미지 4"><span>PORTRAIT</span></button>
-      <button class="gallery-item" type="button"><img src="assets/gallery/gallery5.png" alt="갤러리 이미지 5"><span>SAKURA</span></button>
-      <button class="gallery-item" type="button"><img src="assets/gallery/gallery6.png" alt="갤러리 이미지 6"><span>MICHIKATSU TV</span></button>
     </div>
   </section>
 
-  <section id="videos" class="content-section section-observe">
-    <div class="section-title"><span>VIDEOS</span><h2>추천 영상</h2><p>영상을 클릭해서 감상하러 가기 !</p></div>
-    <div class="video-grid video-grid-three">
-      <a id="videoLink1" class="video-card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="첫 번째 추천 영상 유튜브에서 열기"><div class="video-thumb"><img src="assets/videos/thumb1.jpg" alt="추천 영상 1 썸네일"><i>▶</i></div><b>FEATURED VIDEO 01</b><small>게임과 도전 콘텐츠</small><em>YOUTUBE에서 보기 →</em></a>
-      <a id="videoLink2" class="video-card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="두 번째 추천 영상 유튜브에서 열기"><div class="video-thumb"><img src="assets/videos/thumb2.png" alt="추천 영상 2 썸네일"><i>▶</i></div><b>FEATURED VIDEO 02</b><small>리뷰와 일상 콘텐츠</small><em>YOUTUBE에서 보기 →</em></a>
-      <a id="videoLink3" class="video-card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="세 번째 추천 영상 유튜브에서 열기"><div class="video-thumb"><img src="assets/videos/thumb3.png" alt="추천 영상 3 썸네일"><i>▶</i></div><b>FEATURED VIDEO 03</b><small>새로운 이야기와 업데이트</small><em>YOUTUBE에서 보기 →</em></a>
+  <section id="gallery" class="panel gallery-panel reveal-section">
+    <div class="section-heading"><i>✦</i><h2>GALLERY</h2><i>✦</i></div>
+    <div class="gallery-row">
+      <button class="gallery-card"><span class="image-wrap"><img loading="lazy" src="assets/gallery/gallery1.webp" decoding="async" alt="갤러리 1"><i>⌕</i></span><b>GALLERY 01</b></button>
+      <button class="gallery-card"><span class="image-wrap"><img loading="lazy" src="assets/gallery/gallery2.webp" decoding="async" alt="갤러리 2"><i>⌕</i></span><b>GALLERY 02</b></button>
+      <button class="gallery-card"><span class="image-wrap"><img loading="lazy" src="assets/gallery/gallery3.webp" decoding="async" alt="갤러리 3"><i>⌕</i></span><b>GALLERY 03</b></button>
+      <button class="gallery-card"><span class="image-wrap"><img loading="lazy" src="assets/gallery/gallery4.webp" decoding="async" alt="갤러리 4"><i>⌕</i></span><b>GALLERY 04</b></button>
+      <button class="gallery-card"><span class="image-wrap"><img loading="lazy" src="assets/gallery/gallery5.webp" decoding="async" alt="갤러리 5"><i>⌕</i></span><b>GALLERY 05</b></button>
+      <button class="gallery-card"><span class="image-wrap"><img loading="lazy" src="assets/gallery/gallery6.webp" decoding="async" alt="갤러리 6"><i>⌕</i></span><b>GALLERY 06</b></button>
+    </div>
+  </section>
+
+  <section id="videos" class="panel videos-panel reveal-section">
+    <div class="section-heading"><i>✦</i><h2>VIDEOS</h2><i>✦</i></div>
+    <div class="videos-layout">
+      <div class="video-area">
+        <div class="video-row">
+          <a class="video-card" href="https://www.youtube.com/watch?v=JEv3tsmnIpI" target="_blank" rel="noopener">
+            <div class="video-img"><img src="https://i.ytimg.com/vi/JEv3tsmnIpI/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/JEv3tsmnIpI/hqdefault.jpg'" alt="추천 영상 1"><span>▶ WATCH</span></div>
+            <h3>추천 영상 01</h3><p>MICHIKATSU TV <em>●</em></p><small>YOUTUBE에서 보기</small>
+          </a>
+          <a class="video-card" href="https://www.youtube.com/watch?v=UGKBF5kjHHU" target="_blank" rel="noopener">
+            <div class="video-img"><img src="https://i.ytimg.com/vi/UGKBF5kjHHU/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/UGKBF5kjHHU/hqdefault.jpg'" alt="추천 영상 2"><span>▶ WATCH</span></div>
+            <h3>추천 영상 02</h3><p>MICHIKATSU TV <em>●</em></p><small>YOUTUBE에서 보기</small>
+          </a>
+          <a class="video-card" href="https://www.youtube.com/watch?v=UENkyMqG_P4" target="_blank" rel="noopener">
+            <div class="video-img"><img src="https://i.ytimg.com/vi/UENkyMqG_P4/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/UENkyMqG_P4/hqdefault.jpg'" alt="추천 영상 3"><span>▶ WATCH</span></div>
+            <h3>추천 영상 03</h3><p>MICHIKATSU TV <em>●</em></p><small>YOUTUBE에서 보기</small>
+          </a>
+        </div>
+        <a class="more-videos" href="https://www.youtube.com/" target="_blank" rel="noopener">더 많은 영상 보기 <span>›</span></a>
+      </div>
+
+      <aside class="player-card" id="playerCard">
+        <div class="player-top"><span>♪ NOW PLAYING</span><button id="playerCollapseBtn" type="button">−</button></div>
+        <strong id="trackTitle">Booyah (Radio Edit)</strong>
+        <span class="artist">MICHIKATSU TV</span>
+        <span id="playerStatus" class="player-status">입장 버튼을 누르면 음악이 시작됩니다.</span>
+        <input id="seekBar" type="range" min="0" max="100" value="0" step="0.1">
+        <div class="times"><span id="currentTime">00:00</span><span id="duration">00:00</span></div>
+        <div class="controls">
+          <button id="shuffleBtn" type="button">⌘</button><button id="prevBtn" type="button">|◀</button><button id="playerBtn" class="play" type="button">▶</button><button id="nextBtn" type="button">▶|</button><button id="repeatBtn" type="button">↻</button>
+        </div>
+        <div class="volume"><span>🔊</span><input id="volumeBar" type="range" min="0" max="100" value="70"><b id="volumeText">70%</b></div>
+        <div class="equalizer" id="equalizer"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </aside>
     </div>
   </section>
 </main>
 
-<div id="lightbox" class="lightbox" aria-hidden="true"><button type="button" aria-label="닫기">×</button><img alt="확대 이미지"></div>
-<footer>© <span id="year"></span> 미치카츠TV. All Rights Reserved. ✿</footer>
-<script src="script.js"></script>
+<footer><span>© 2026 MICHIKATSU TV. All Rights Reserved.</span><span>MADE WITH ♥ FOR YOU</span></footer>
+<div id="lightbox" class="lightbox"><button type="button">×</button><img alt="확대 이미지"></div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"미치카츠TV","alternateName":"MICHIKATSU TV","description":"게임, 일상, 리뷰와 도전 콘텐츠를 만나는 미치카츠TV 공식 홈페이지"}</script>
+<script src="script.js?v=6.9.0" defer></script>
 </body>
 </html>
