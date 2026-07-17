@@ -1,9 +1,9 @@
 const SETTINGS = {
   // 아래 주소만 실제 유튜브 영상 주소로 바꾸면 추천 카드가 해당 영상으로 바로 연결됩니다.
   videoLinks: [
-    'https://www.youtube.com/',
-    'https://www.youtube.com/',
-    'https://www.youtube.com/'
+    'https://www.youtube.com/watch?v=JEv3tsmnIpI',
+    'https://www.youtube.com/watch?v=UGKBF5kjHHU',
+    'https://www.youtube.com/watch?v=UENkyMqG_P4'
   ]
 };
 
