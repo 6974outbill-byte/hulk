@@ -1,213 +1,197 @@
 const SETTINGS = {
-  youtube: "https://www.youtube.com/",
-  instagram: "https://www.instagram.com/",
-  email: "your@email.com"
+  // 아래 주소만 실제 유튜브 영상 주소로 바꾸면 추천 카드가 해당 영상으로 바로 연결됩니다.
+  videoLinks: [
+    'https://www.youtube.com/',
+    'https://www.youtube.com/',
+    'https://www.youtube.com/'
+  ]
 };
 
-const bgm = document.getElementById("bgm");
-const enterButton = document.getElementById("enterButton");
-const introOverlay = document.getElementById("introOverlay");
-const landingMusicButton = document.getElementById("landingMusicButton");
-const flashLayer = document.getElementById("flashLayer");
-const shockLayer = document.getElementById("shockLayer");
+const intro=document.getElementById('intro');
+const introImage=document.getElementById('introImage');
+const enterBtn=document.getElementById('enterBtn');
+const bgm=document.getElementById('bgm');
+const musicBtn=document.getElementById('musicBtn');
+const playerBtn=document.getElementById('playerBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const seekBar=document.getElementById('seekBar');
+const volumeBar=document.getElementById('volumeBar');
+const volumeText=document.getElementById('volumeText');
+const volumeIcon=document.getElementById('volumeIcon');
+const playerCollapseBtn=document.getElementById('playerCollapseBtn');
+const trackTitle=document.getElementById('trackTitle');
+const timeText=document.getElementById('timeText');
+const playerCard=document.querySelector('.player-card');
+const fallback=[
+  'Ass up ( ATMOX Remix ).mp3',
+  'Avicii - The Nights (ATMOX Remix).mp3',
+  'Booyah (Radio Edit).mp3',
+  'Turbotronic - Disco Monster (Radio Edit)(1).mp3'
+];
+let playlist=[],bag=[],history=[],current=-1,keepPlaying=false,failed=new Set(),seeking=false;
+bgm.volume=.4;
 
-const musicToggle = document.getElementById("musicToggle");
-const panelPlay = document.getElementById("panelPlay");
-const musicIcon = document.getElementById("musicIcon");
-const musicText = document.getElementById("musicText");
-const musicPanel = document.getElementById("musicPanel");
-const musicStatus = document.getElementById("musicStatus");
-const volumeSlider = document.getElementById("volumeSlider");
-const volumeValue = document.getElementById("volumeValue");
+function fitIntro(){
+  const sw=1536,sh=1024,vw=innerWidth,vh=innerHeight,scale=Math.min(vw/sw,vh/sh);
+  const w=sw*scale,h=sh*scale,left=(vw-w)/2,top=(vh-h)/2;
+  introImage.style.width=w+'px';introImage.style.height=h+'px';
+  const b={x:515,y:760,w:525,h:114};
+  Object.assign(enterBtn.style,{left:left+b.x*scale+'px',top:top+b.y*scale+'px',width:b.w*scale+'px',height:b.h*scale+'px'});
+}
+addEventListener('resize',fitIntro);fitIntro();
 
-const themeToggle = document.getElementById("themeToggle");
-const menuButton = document.getElementById("menuButton");
-const mainNav = document.getElementById("mainNav");
-
-document.querySelectorAll(".youtube, .youtube-hotspot").forEach(el => el.href = SETTINGS.youtube);
-document.querySelectorAll(".instagram, .instagram-hotspot").forEach(el => el.href = SETTINGS.instagram);
-document.querySelector('a[href^="mailto:"]').href = `mailto:${SETTINGS.email}`;
-
-bgm.volume = 0.4;
-bgm.loop = true;
-
-function updatePlayerUI() {
-  const playing = !bgm.paused;
-  const vol = Math.round(bgm.volume * 100);
-  musicIcon.textContent = playing ? "❚❚" : "▶";
-  musicText.textContent = playing ? `MUSIC ON · ${vol}%` : "MUSIC OFF";
-  panelPlay.textContent = playing ? "❚❚" : "▶";
-  musicStatus.textContent = playing ? "PLAYING" : "PAUSED";
-  landingMusicButton.innerHTML = playing ? `MUSIC ♫ ON <b>${vol}%</b>` : "MUSIC OFF";
-  musicPanel.classList.toggle("playing", playing);
+async function loadPlaylist(){
+  if(playlist.length)return;
+  let files=fallback;
+  try{
+    const r=await fetch('music/playlist.json?'+Date.now(),{cache:'no-store'});
+    if(r.ok){const j=await r.json();if(Array.isArray(j)&&j.length)files=j;}
+  }catch(e){console.warn('playlist.json을 불러오지 못해 기본 목록을 사용합니다.');}
+  playlist=files
+    .filter(x=>typeof x==='string'&&/\.(mp3|m4a|ogg|wav)$/i.test(x)&&!x.includes('Lost Control'))
+    .map(x=>({title:x.replace(/\.[^.]+$/,''),src:'music/'+x.split('/').map(encodeURIComponent).join('/')}));
+}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function refill(){bag=shuffle(playlist.map((_,i)=>i).filter(i=>!failed.has(i)));if(bag.length>1&&bag[0]===current)[bag[0],bag[1]]=[bag[1],bag[0]]}
+function loadIndex(index,{pushHistory=true}={}){
+  if(index<0||!playlist[index])return false;
+  if(pushHistory&&current>=0&&current!==index)history.push(current);
+  current=index;
+  const t=playlist[current];
+  bgm.src=t.src;trackTitle.textContent=t.title;bgm.load();
+  seekBar.value=0;timeText.textContent='00:00 / 00:00';
+  return true;
+}
+function selectNext(){if(!bag.length)refill();if(!bag.length)return false;return loadIndex(bag.shift())}
+function setPlayerUI(){
+  const playing=!bgm.paused;
+  musicBtn.querySelector('span').textContent=playing?'Ⅱ':'▶';
+  playerBtn.textContent=playing?'Ⅱ':'▶';
+  document.body.classList.toggle('paused',!playing);
+}
+async function playMusic(){
+  keepPlaying=true;await loadPlaylist();
+  if(!bgm.src&&!selectNext())return;
+  try{await bgm.play()}catch(e){console.warn('브라우저 재생 제한 또는 파일 오류',e)}
+  setPlayerUI();
+}
+function toggleMusic(){if(bgm.paused)playMusic();else{keepPlaying=false;bgm.pause();setPlayerUI()}}
+async function nextTrack(){await loadPlaylist();if(!selectNext())return;keepPlaying=true;try{await bgm.play()}catch(e){}setPlayerUI()}
+async function previousTrack(){
+  await loadPlaylist();
+  if(bgm.currentTime>4){bgm.currentTime=0;return;}
+  const index=history.pop();
+  if(index===undefined)return;
+  loadIndex(index,{pushHistory:false});keepPlaying=true;
+  try{await bgm.play()}catch(e){}setPlayerUI();
 }
 
-async function playMusic() {
-  try { await bgm.play(); }
-  catch (error) { console.warn("브라우저가 자동 재생을 차단했습니다.", error); }
-  updatePlayerUI();
-}
+musicBtn.addEventListener('click',toggleMusic);
+playerBtn.addEventListener('click',toggleMusic);
+nextBtn.addEventListener('click',nextTrack);
+prevBtn.addEventListener('click',previousTrack);
+playerCollapseBtn.addEventListener('click',()=>{playerCard.classList.toggle('collapsed');playerCollapseBtn.textContent=playerCard.classList.contains('collapsed')?'+':'−'});
 
-function toggleMusic() {
-  if (bgm.paused) playMusic();
-  else { bgm.pause(); updatePlayerUI(); }
-}
+volumeBar.addEventListener('input',()=>{
+  bgm.volume=Number(volumeBar.value)/100;
+  volumeText.textContent=volumeBar.value+'%';
+  volumeIcon.textContent=bgm.volume===0?'🔇':bgm.volume<.5?'🔉':'🔊';
+});
+seekBar.addEventListener('pointerdown',()=>seeking=true);
+seekBar.addEventListener('pointerup',()=>seeking=false);
+seekBar.addEventListener('input',()=>{if(bgm.duration)bgm.currentTime=(Number(seekBar.value)/100)*bgm.duration});
 
-let entering = false;
-
-async function enterSite() {
-  if (entering) return;
-  entering = true;
-
-  flashLayer.classList.add("active");
-  shockLayer.classList.add("active");
-
-  document.body.animate(
-    [
-      { transform: "translate(0,0)" },
-      { transform: "translate(-10px,6px)" },
-      { transform: "translate(9px,-5px)" },
-      { transform: "translate(-5px,3px)" },
-      { transform: "translate(0,0)" }
-    ],
-    { duration: 520, easing: "ease-out" }
-  );
-
-  setTimeout(() => flashLayer.classList.remove("active"), 430);
-  setTimeout(() => shockLayer.classList.remove("active"), 720);
-
-  await playMusic();
-  introOverlay.classList.add("hide");
-
-  setTimeout(() => {
-    introOverlay.style.display = "none";
-    document.getElementById("home").scrollIntoView({ behavior: "smooth" });
-  }, 900);
-}
-
-enterButton.addEventListener("click", (event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  enterSite();
+bgm.addEventListener('play',setPlayerUI);
+bgm.addEventListener('pause',setPlayerUI);
+bgm.addEventListener('ended',()=>{if(keepPlaying)nextTrack()});
+bgm.addEventListener('error',()=>{if(current>=0)failed.add(current);if(keepPlaying)nextTrack()});
+bgm.addEventListener('timeupdate',()=>{
+  const d=bgm.duration||0,c=bgm.currentTime||0;
+  if(!seeking)seekBar.value=d?c/d*100:0;
+  const f=s=>`${Math.floor(s/60).toString().padStart(2,'0')}:${Math.floor(s%60).toString().padStart(2,'0')}`;
+  timeText.textContent=`${f(c)} / ${f(d)}`;
 });
 
-/* Fallback: clicking the background area also enters.
-   Social and music controls remain independently clickable. */
-introOverlay.addEventListener("click", (event) => {
-  if (
-    event.target.closest(".youtube-hotspot") ||
-    event.target.closest(".instagram-hotspot") ||
-    event.target.closest("#landingMusicButton")
-  ) return;
-  enterSite();
-});
+enterBtn.addEventListener('click',async()=>{if(intro.classList.contains('entering'))return;intro.classList.add('entering');await playMusic();setTimeout(()=>intro.classList.add('hide'),250);setTimeout(()=>intro.remove(),1200)});
 
-document.addEventListener("keydown", (event) => {
-  if ((event.key === "Enter" || event.key === " ") && !introOverlay.classList.contains("hide")) {
-    event.preventDefault();
-    enterSite();
+document.getElementById('themeBtn').addEventListener('click',()=>document.body.classList.toggle('soft'));
+document.querySelectorAll('.main-nav a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.main-nav a').forEach(x=>x.classList.remove('active'));a.classList.add('active')}));
+const sections=document.querySelectorAll('.section-observe');
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.main-nav a').forEach(a=>a.classList.toggle('active',a.dataset.section===e.target.id))}}),{rootMargin:'-35% 0px -55%'});sections.forEach(s=>observer.observe(s));
+
+const petals=document.getElementById('petals');for(let i=0;i<(innerWidth<700?34:72);i++){const p=document.createElement('i');p.className='petal';p.style.left=Math.random()*100+'%';p.style.setProperty('--s',8+Math.random()*14+'px');p.style.setProperty('--o',.25+Math.random()*.6);p.style.setProperty('--d',8+Math.random()*10+'s');p.style.setProperty('--delay',-Math.random()*16+'s');p.style.setProperty('--drift',-120+Math.random()*240+'px');petals.appendChild(p)}
+
+const lightbox=document.getElementById('lightbox'),lightImg=lightbox.querySelector('img');document.querySelectorAll('.gallery-item').forEach(b=>b.addEventListener('click',()=>{lightImg.src=b.querySelector('img').src;lightbox.classList.add('show');lightbox.setAttribute('aria-hidden','false')}));lightbox.addEventListener('click',e=>{if(e.target===lightbox||e.target.tagName==='BUTTON'){lightbox.classList.remove('show');lightbox.setAttribute('aria-hidden','true')}});
+
+SETTINGS.videoLinks.forEach((url,index)=>{const link=document.getElementById(`videoLink${index+1}`);if(link&&url)link.href=url});
+document.getElementById('year').textContent=new Date().getFullYear();
+setPlayerUI();
+
+
+// V6.3 cinematic particle field + mouse parallax
+(() => {
+  const canvas = document.getElementById('fxCanvas');
+  if (!canvas || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let dpr = Math.min(devicePixelRatio || 1, 2), w = 0, h = 0, raf = 0;
+  let pointerX = 0, pointerY = 0, targetX = 0, targetY = 0;
+  const petalsFx = [], sparks = [], dust = [];
+  const rnd = (a,b) => a + Math.random() * (b-a);
+
+  function resize(){
+    w = innerWidth; h = innerHeight; dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w*dpr); canvas.height = Math.round(h*dpr);
+    canvas.style.width = w+'px'; canvas.style.height = h+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
   }
-});
+  function makePetal(reset=false){
+    return {x:rnd(-80,w+80),y:reset?rnd(-h,0):rnd(0,h),s:rnd(4,13),vx:rnd(-.65,.85),vy:rnd(.55,1.7),rot:rnd(0,Math.PI*2),vr:rnd(-.045,.055),a:rnd(.28,.88),wave:rnd(0,Math.PI*2)};
+  }
+  function makeSpark(reset=false){
+    return {x:rnd(0,w),y:reset?rnd(h*.45,h+80):rnd(0,h),r:rnd(.7,2.4),vx:rnd(-.18,.18),vy:rnd(-.75,-.18),a:rnd(.18,.85),life:rnd(120,360),hue:rnd(320,355)};
+  }
+  function makeDust(){return {x:rnd(0,w),y:rnd(0,h),r:rnd(.3,1.4),a:rnd(.08,.4),phase:rnd(0,Math.PI*2),speed:rnd(.005,.02)}}
+  function seed(){
+    petalsFx.length=sparks.length=dust.length=0;
+    const compact=w<700;
+    for(let i=0;i<(compact?45:105);i++) petalsFx.push(makePetal());
+    for(let i=0;i<(compact?42:95);i++) sparks.push(makeSpark());
+    for(let i=0;i<(compact?55:130);i++) dust.push(makeDust());
+  }
+  addEventListener('resize',()=>{resize();seed()},{passive:true});
+  addEventListener('pointermove',e=>{
+    targetX=(e.clientX/w-.5)*24; targetY=(e.clientY/h-.5)*18;
+    document.documentElement.style.setProperty('--px',targetX+'px');
+    document.documentElement.style.setProperty('--py',targetY+'px');
+    document.documentElement.style.setProperty('--px-soft',(targetX*.55)+'px');
+    document.documentElement.style.setProperty('--py-soft',(targetY*.55)+'px');
+  },{passive:true});
+  addEventListener('pointerleave',()=>{targetX=targetY=0},{passive:true});
 
-landingMusicButton.addEventListener("click", toggleMusic);
-musicToggle.addEventListener("click", toggleMusic);
-panelPlay.addEventListener("click", toggleMusic);
-bgm.addEventListener("play", updatePlayerUI);
-bgm.addEventListener("pause", updatePlayerUI);
-
-volumeSlider.addEventListener("input", () => {
-  bgm.volume = Number(volumeSlider.value) / 100;
-  volumeValue.textContent = `${volumeSlider.value}%`;
-  updatePlayerUI();
-});
-
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("light-theme");
-  themeToggle.textContent = document.body.classList.contains("light-theme") ? "☀" : "☾";
-});
-
-menuButton.addEventListener("click", () => {
-  const open = mainNav.classList.toggle("open");
-  menuButton.setAttribute("aria-expanded", open);
-});
-
-document.querySelectorAll("nav a").forEach(link => {
-  link.addEventListener("click", () => mainNav.classList.remove("open"));
-});
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add("show");
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-document.getElementById("topButton").addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-function updateClock() {
-  const now = new Date();
-  document.getElementById("liveTime").textContent =
-    now.toLocaleTimeString("ko-KR", { hour12: false });
-  document.getElementById("liveDate").textContent =
-    now.toLocaleDateString("ko-KR", {
-      year: "numeric", month: "2-digit", day: "2-digit", weekday: "short"
-    });
-}
-setInterval(updateClock, 1000);
-updateClock();
-document.getElementById("year").textContent = new Date().getFullYear();
-
-const canvas = document.getElementById("particleCanvas");
-const ctx = canvas.getContext("2d");
-let particles = [];
-
-function resizeCanvas() {
-  const ratio = window.devicePixelRatio || 1;
-  canvas.width = innerWidth * ratio;
-  canvas.height = innerHeight * ratio;
-  canvas.style.width = innerWidth + "px";
-  canvas.style.height = innerHeight + "px";
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-}
-
-function createParticle() {
-  return {
-    x: Math.random() * innerWidth,
-    y: Math.random() * innerHeight,
-    r: Math.random() * 2 + 0.4,
-    vx: (Math.random() - 0.5) * 0.24,
-    vy: -Math.random() * 0.34 - 0.04,
-    a: Math.random() * 0.48 + 0.08
-  };
-}
-
-function resetParticles() {
-  particles = Array.from({ length: innerWidth < 700 ? 50 : 95 }, createParticle);
-}
-
-function drawParticles() {
-  ctx.clearRect(0, 0, innerWidth, innerHeight);
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-    if (p.y < -10) Object.assign(p, createParticle(), { y: innerHeight + 10 });
-    ctx.beginPath();
-    ctx.fillStyle = `rgba(99,255,71,${p.a})`;
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fill();
-  });
-  requestAnimationFrame(drawParticles);
-}
-
-addEventListener("resize", () => {
-  resizeCanvas();
-  resetParticles();
-});
-
-resizeCanvas();
-resetParticles();
-drawParticles();
-updatePlayerUI();
+  function drawPetal(p,t){
+    p.wave += .018; p.x += p.vx + Math.sin(p.wave)*.65 + pointerX*.003; p.y += p.vy; p.rot += p.vr;
+    if(p.y>h+30 || p.x<-120 || p.x>w+120) Object.assign(p,makePetal(true));
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=p.a;
+    const g=ctx.createLinearGradient(-p.s,0,p.s,0);g.addColorStop(0,'rgba(255,214,235,.95)');g.addColorStop(.55,'rgba(255,82,167,.95)');g.addColorStop(1,'rgba(143,24,92,.75)');
+    ctx.fillStyle=g;ctx.shadowColor='rgba(255,69,164,.8)';ctx.shadowBlur=8;
+    ctx.beginPath();ctx.moveTo(0,-p.s*.35);ctx.bezierCurveTo(p.s*.9,-p.s*.8,p.s*.95,p.s*.35,0,p.s*.55);ctx.bezierCurveTo(-p.s*.9,p.s*.25,-p.s*.7,-p.s*.65,0,-p.s*.35);ctx.fill();ctx.restore();
+  }
+  function drawSpark(s){
+    s.x+=s.vx+pointerX*.0015;s.y+=s.vy;s.life--;
+    if(s.life<0||s.y<-20) Object.assign(s,makeSpark(true));
+    const pulse=.55+.45*Math.sin(s.life*.08);
+    ctx.globalAlpha=s.a*pulse;ctx.fillStyle=`hsl(${s.hue} 100% 68%)`;ctx.shadowColor=`hsla(${s.hue},100%,65%,.9)`;ctx.shadowBlur=12;
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+  }
+  function frame(t){
+    pointerX += (targetX-pointerX)*.045; pointerY += (targetY-pointerY)*.045;
+    ctx.clearRect(0,0,w,h);ctx.globalCompositeOperation='lighter';
+    for(const d of dust){d.phase+=d.speed;ctx.globalAlpha=d.a*(.45+.55*Math.sin(d.phase));ctx.fillStyle='#ff8ac7';ctx.beginPath();ctx.arc(d.x+pointerX*.08,d.y+pointerY*.08,d.r,0,Math.PI*2);ctx.fill()}
+    for(const s of sparks) drawSpark(s);
+    ctx.globalCompositeOperation='source-over';
+    for(const p of petalsFx) drawPetal(p,t);
+    ctx.globalAlpha=1;ctx.shadowBlur=0;raf=requestAnimationFrame(frame);
+  }
+  resize();seed();frame(0);
+})();
