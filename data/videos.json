@@ -1,0 +1,20 @@
+[
+  {
+    "url": "https://www.youtube.com/watch?v=JEv3tsmnIpI",
+    "title": "추천 영상 01",
+    "description": "미치카츠TV 추천 콘텐츠",
+    "fallbackThumbnail": "assets/videos/thumb1.jpg"
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=UGKBF5kjHHU",
+    "title": "추천 영상 02",
+    "description": "미치카츠TV 추천 콘텐츠",
+    "fallbackThumbnail": "assets/videos/thumb2.png"
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=UENkyMqG_P4",
+    "title": "추천 영상 03",
+    "description": "미치카츠TV 추천 콘텐츠",
+    "fallbackThumbnail": "assets/videos/thumb3.png"
+  }
+]
