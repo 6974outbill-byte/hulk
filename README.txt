@@ -1,19 +1,30 @@
-MICHIKATSU TV V6.7
+GODWUBIN TV LAUNCHER V5
 
-핵심 수정
-- 메인 배경 이미지에 포함되어 있던 글자 위에 새 글자가 겹치던 문제 제거
-- 화면에 MICHIKATSU TV 문구가 한 번만 표시되도록 구성
-- 전달된 시안 비율에 맞춰 헤더, 히어로, 갤러리 6개, 영상 3개, 음악 플레이어 재배치
-- YouTube 링크와 자동 썸네일 직접 적용
-- 갤러리 클릭 확대, 음악 재생/이전/다음/볼륨/탐색/셔플/반복 유지
+핵심 변경
+- PC 기준 한 화면 게임 런처 구조
+- 긴 세로 스크롤 제거
+- 메뉴 클릭 시 중앙 콘텐츠만 전환
+- 최신 영상 / Shorts / LIVE / 후원 / 소개 탭
+- 오른쪽 고정 정보 패널
+- 모바일 하단 탭 메뉴
+- ENTER / BGM / 볼륨 LocalStorage
+- YouTube 최신 영상, Shorts, LIVE 자동 연동
+- 투네이션 / TWIP 링크 연결
+- Particle / Glass / Glow 효과
+- SEO / OpenGraph / favicon / robots / sitemap
+- Cloudflare Pages Functions 지원
 
-배포 방법
-1. 기존 저장소 파일을 모두 삭제합니다.
-2. 이 ZIP의 내부 파일과 폴더를 저장소 최상위에 업로드합니다.
-3. Cloudflare Pages 배포가 완료된 뒤 Ctrl+F5로 새로고침합니다.
+로컬 확인
+1. 압축을 풉니다.
+2. index.html을 더블클릭합니다.
+3. ENTER를 누릅니다.
 
+Cloudflare 설정
+- YOUTUBE_API_KEY
+- YOUTUBE_HANDLE = @GodWuBinTV
 
-[V6.8 음악 플레이어 수정]
-- 플레이어는 화면 오른쪽 아래에 fixed로 고정됩니다.
-- 인트로 입장 버튼 클릭 시 브라우저 정책에 맞춰 음악 재생을 시작합니다.
-- 자동 재생이 브라우저 설정으로 차단되면 중앙 재생 버튼을 한 번 누르면 됩니다.
+후원 링크
+assets/config.js에서 toonationUrl, twipUrl을 변경하세요.
+
+SEO
+index.html, robots.txt, sitemap.xml의 YOUR-DOMAIN.com을 실제 도메인으로 변경하세요.
